@@ -1,0 +1,256 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>clock0</title>  
+</head>  
+<body>  
+      
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>  
+    <script type="text/javascript">  
+          
+        var width = 1500,  
+            height = 500;  
+        var svg = d3.select('body').append("svg").attr("width", width).attr("height", height);  
+        svg.attr("x",1000)
+            .attr("y",100);
+               
+        var innerRadius = 190;      //圆的内半径、外半径  
+        var outerRadius = width/6-width/12;
+        var outerRadius2 = outerRadius+15;
+        var outerRadius3 = outerRadius / 8;
+
+
+  
+      
+        var mdlcolor = "lime";
+
+        var color = d3.scale.category10()  
+        var a = d3.rgb(0, 255, 255); //红色               设置渐变颜色的起始  
+        var b = d3.rgb(255, 255, 0); //绿色  
+        var c = d3.rgb(255, 0, 0);  
+        var compute = d3.interpolate(a, b); //他的值是介于0-1的  
+
+        var hx = (width/3)/2;
+        var mx = width/2;
+        var sx = width-(width/3)/2;
+
+        var y = height/2;
+        var yp = 50;
+
+        var mdlx1 = (hx+mx)/2;
+        var mdlx2 = (mx+sx)/2;
+
+        var mdly1 = y - outerRadius / 4; 
+        var mdly2 = y + outerRadius / 4;
+
+        var circle1 = svg.append("circle")
+                        .attr("cx",hx)
+                        .attr("cy",y)
+                        .attr("r",outerRadius)
+                        .style({
+                            fill:'none',
+                            stroke:'yellow',
+                            'stroke-width':6
+                        });
+
+
+
+        var circle2 = svg.append("circle")
+                        .attr("cx",mx)
+                        .attr("cy",y)
+                        .attr("r",outerRadius)
+                        .style({
+                            fill:'none',
+                            stroke:'yellow',
+                            'stroke-width':4
+                        });
+
+
+
+        var circle3 = svg.append("circle")
+                        .attr("cx",sx)
+                        .attr("cy",y)
+                        .attr("r",outerRadius)
+                        .style({
+                            fill:'none',
+                            stroke:'yellow',
+                            'stroke-width':2
+                        });
+
+        var circle4 = svg.append("circle")
+                        .attr("cx",hx)
+                        .attr("cy",y)
+                        .attr("r",outerRadius2)
+                        .style({
+                            fill:'none',
+                            stroke:'skyblue',
+                            'stroke-width':2
+                        });
+
+        var circle5 = svg.append("circle")
+                        .attr("cx",mx)
+                        .attr("cy",y)
+                        .attr("r",outerRadius2)
+                        .style({
+                            fill:'none',
+                            stroke:'slateblue',
+                            'stroke-width':2
+                        });;
+
+        var circle6 = svg.append("circle")
+                        .attr("cx",sx)
+                        .attr("cy",y)
+                        .attr("r",outerRadius2)
+                        .style({
+                            fill:'none',
+                            stroke:'royalblue',
+                            'stroke-width':2
+                        });
+
+  
+        var circle7 = svg.append("circle")
+                        .attr("cx",mdlx1)
+                        .attr("cy",mdly1)
+                        .attr("r",outerRadius3)
+                        .style({
+                            fill:"none",
+                            stroke : "skyblue",
+                            'stroke-width':3
+                        });
+
+        var circle8 = svg.append("circle")
+                        .attr("cx",mdlx1)
+                        .attr("cy",mdly2)
+                        .attr("r",outerRadius3)
+                        .style({
+                            fill:"none",
+                            stroke : "slateblue",
+                            'stroke-width':3
+                        });
+
+        var circle9 = svg.append("circle")
+                        .attr("cx",mdlx2)
+                        .attr("cy",mdly1)
+                        .attr("r",outerRadius3)
+                        .style({
+                            fill:"none",
+                            stroke : "slateblue",
+                            'stroke-width':3
+                        });
+
+        var circle10 = svg.append("circle")
+                        .attr("cx",mdlx2)
+                        .attr("cy",mdly2)
+                        .attr("r",outerRadius3)
+                        .style({
+                            fill:"none",
+                            stroke : "royalblue",
+                            'stroke-width':3
+                        });
+  
+  
+  
+        
+         
+
+        var text1 = svg.append("text")
+                        .attr("x",hx)
+                        .attr("y",y+yp)
+                        .text("H")
+                        .attr("fill","skyblue")
+                        .style('text-anchor', "middle")  
+                        .style('font-size', "10em"); 
+
+        var text2 = svg.append("text")
+                        .attr("x",mx)
+                        .attr("y",y+yp)
+                        .text("M")
+                        .attr("fill","slateblue")
+                        .style('text-anchor', "middle")  
+                        .style('font-size', "10em");  
+
+        var text3 = svg.append("text")
+                        .attr("x",sx)
+                        .attr("y",y+yp)
+                        .text("S")
+                        .attr("fill","royalblue")
+                        .style('text-anchor', "middle")  
+                        .style('font-size', "10em");   
+
+        var HoursLine = svg.append('g').append('line')  
+                            .attr('x1', hx)  
+                            .attr('y1', y)  
+                            .style('stroke-width', 6); 
+
+        var MinutesLine = svg.append('g').append('line')  
+                            .attr('x1', mx)  
+                            .attr('y1', y)  
+                            .style('stroke-width', 4)  
+  
+        var SecondsLine = svg.append('g').append('line')  
+                            .attr("x1", sx)  
+                            .attr("y1", y)  
+                            .style('stroke-width', 2) 
+                        
+  
+
+        function chuli() {  
+            var d = new Date();  
+            var dm = d.getTime() % 1000;  
+            var h = (d.getHours() >= 12 ? d.getHours() - 12 : d.getHours());  
+            var h2 = d.getHours(0);
+            var m = d.getMinutes();  
+            var s = d.getSeconds();  
+            var angle = (Math.PI * 2) / 60 * (60 - s) + Math.PI;  
+            var angle2 = (Math.PI * 2) / (60 * 60) * ((60 * 60 - m * 60-s)) + Math.PI;  
+            var angle3 = (Math.PI * 2) / (12 * 60 * 60) * (12 * 60 * 60 - h * 60 * 60 - m * 60 - s) + Math.PI;  
+            SecondsLine.attr('x2', function(d, i) {  
+                    return sx + (innerRadius - 60) * Math.sin(angle);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return y + (innerRadius - 60) * Math.cos(angle);  
+                })  
+                .style('stroke', compute((s / 60)));  
+  
+            MinutesLine.attr('x2', function(d, i) {  
+                    return mx + (innerRadius - 75) * Math.sin(angle2);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return y + (innerRadius - 75) * Math.cos(angle2);  
+                })  
+                .style('stroke', compute((m / 60)));  
+  
+            HoursLine.attr('x2', function(d, i) {  
+                    return hx + (innerRadius - 95) * Math.sin(angle3);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return y + (innerRadius - 95) * Math.cos(angle3);  
+                })  
+                .style('stroke', compute((h / 12)));  
+  
+            circle1.style('stroke', compute((h / 12)));
+            circle2.style('stroke', compute((m / 60)));
+            circle3.style('stroke', compute((s / 60))); 
+
+            if(h2<10)
+                h2="0"+h2;
+            if(m<10)
+                m="0"+m;
+            if(s<10)
+                s="0"+s;
+            text1.text(h2);
+
+            text2.text(m);
+            text3.text(s);
+
+
+            
+  
+            setTimeout(chuli, 1000 - dm);//获取当前的毫秒，用1000减去，则是到下一秒的毫秒时间。  
+        }  
+        chuli();  
+  
+    </script>  
+</body>  
+</html> 

@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>clock3</title>
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+<style type="text/css">
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    var w=1000;
+    var h=700;
+    var body = d3.select("body");
+    var svg = body.append("svg")
+                .attr("width",w)
+                .attr("height",h);
+
+    var color = d3.scale.category10()  
+    var a = d3.rgb(0, 255, 255); //红色               设置渐变颜色的起始  
+    var b = d3.rgb(255, 255, 0); //绿色  
+    var c = d3.rgb(255, 0, 0);  
+    var compute = d3.interpolate(b,a); //他的值是介于0-1的  
+                
+
+    // var hBar = svg.append("rect")
+    //                 .attr("x",0)
+    //                 .attr("width",100);
+
+    // var mBar = svg.append("rect");
+    var hBar = svg.append("g")
+                    .append("rect")
+                    .attr("x",0)
+                    .attr("width",100);
+    var mBar = svg.append("g")
+                    .append("rect")
+                    .attr("x",150)
+                    .attr("width",100);
+                    
+    var sBar = svg.append("g")
+                    .append("rect")
+                    .attr("x",300)
+                    .attr("width",100);
+                    
+
+    var hText = svg.append("g")
+                    .append("text")
+                    .attr("x",50)
+                    .attr("width",100);
+                    
+    var mText = svg.append("g")
+                    .append("text")
+                    .attr("x",200)
+                    .attr("width",100);
+    var sText = svg.append("g")
+                    .append("text")
+                    .attr("x",350)
+                    .attr("width",100);
+
+
+
+    function getTime(){
+        var date = new Date();
+        var hour = date.getHours();
+        var min = date.getMinutes();
+        var second = date.getSeconds();
+
+        hBar.attr("y",h-hour*10)
+            .attr("height",hour*10)
+            .style('fill', compute((hour / 24)));
+            // .attr("fill",function(){
+            //     var t0 = 0;
+
+            //     var t1 = 0;
+            //     var t2 = hour * 10;
+            //     if(t2>255){
+            //         t1 = t2-255;
+            //         t2 = 0;
+            //     }
+            //     if(t1>255){
+            //         t0 = t1-155;
+            //         t1 = 0;
+            //     }
+
+            //     return "rgb("+t0+","+t1+","+t2+")";
+            // });
+
+
+        mBar.attr("y",h-min*10)
+            .attr("height",min*10)
+            .style('fill', compute((min / 60)));
+            // .attr("fill",function(){
+            //     var t0 = 0;
+
+            //     var t1 = 0;
+            //     var t2 = min * 10;
+            //     if(t2>255){
+            //         t1 = t2-255;
+            //         t2 = 0;
+            //     }
+            //     if(t1>255){
+            //         t0 = t1-155;
+            //         t1 = 0;
+            //     }
+
+            //     return "rgb("+t0+","+t1+","+t2+")";
+            // });
+
+        sBar.attr("y",h-second*10)
+            .attr("height",second*10)
+            .style('fill', compute((second / 60)));
+            // .attr("fill",function(){
+            //     var t0 = 0;
+            //     var t1 = 0;
+            //     var t2 = second * 10;
+            //     if(t2>255){
+            //         t1 = t2-255;
+            //         t2 = 0;
+            //     }
+            //     if(t1>255){
+            //         t0 = t1-155;
+            //         t1 = 0;
+            //     }
+
+            //     return "rgb("+t0+","+t1+","+t2+")";
+            // });
+
+        hText.attr("y",h-hour*10-30);
+        mText.attr("y",h-min*10-30);
+        sText.attr("y",h-second*10-30);
+
+
+
+        
+        if(hour<10)
+            hour="0"+hour;
+        if(min<10)
+            min="0"+min;
+        if(second<10)
+            second="0"+second;
+
+        hText.text(hour+"时")
+            .attr("text-anchor", "middle");
+
+        mText.text(min+"分")
+            .attr("text-anchor", "middle");
+
+        sText.text(second+"秒")
+            .attr("text-anchor", "middle");
+
+
+
+
+
+        return hour + ":" + min + ":" + second;
+    }
+
+    var timeText = svg.append("text")
+                    .attr("x",600)
+                    .attr("y",350)
+                    .attr("class","time")
+                    .text(getTime());
+
+
+    setInterval(function(){
+        timeText.text(getTime());
+    },1000)
+
+    
+</script>
+
+</body>
+</html>

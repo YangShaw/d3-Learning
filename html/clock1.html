@@ -1,0 +1,324 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>clock1</title>
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+<style type="text/css">
+    </style>
+</head>
+<body>
+<script type="text/javascript">
+    var w=1000;
+    var h=100;
+    var body = d3.select("body");
+    var svg = body.append("svg")
+                .attr("width",w)
+                .attr("height",h);
+
+    var svg2 = body.append("svg")
+                .attr("width",w)
+                .attr("height",h); 
+
+    var svg3 = body.append("svg")
+                .attr("width",w)
+                .attr("height",h); 
+    var svg4 = body.append("svg")
+                .attr("width",w)
+                .attr("height",h); 
+    var svg5 = body.append("svg")
+                .attr("width",w)
+                .attr("height",h); 
+    var svg6 = body.append("svg")
+                .attr("width",w)
+                .attr("height",h); 
+    var svg7 = body.append("svg")
+                .attr("width",w)
+                .attr("height",h); 
+
+
+
+
+    var color = d3.scale.category10()  
+    var a = d3.rgb(0, 255, 255); //红色               设置渐变颜色的起始  
+    var b = d3.rgb(255, 255, 0); //绿色  
+    var c = d3.rgb(255, 0, 0);  
+    var compute = d3.interpolate(a, b); //他的值是介于0-1的  
+                
+
+    var circleset = [1,2,3,4,5,6,7,8,9];
+    var circleset2 = [1,2,3,4,5];
+
+    var s1 = svg.selectAll("circle")
+                    .data(circleset)
+                    .enter()
+                    .append("circle");
+
+    s1.attr("cx",function(d,i){
+        return (i*100)+25;
+            })
+            .attr("cy",50)
+            .attr("r",function(d){
+                return d*3+5;
+            })
+            .style({
+                fill:'white',
+                stroke:'green',
+                'stroke-width':4
+            });
+
+    var s2 = svg2.selectAll("circle")
+                    .data(circleset2)
+                    .enter()
+                    .append("circle");
+
+    s2.attr("cx",function(d,i){
+        return (i*100)+25;
+            })
+            .attr("cy",50)
+            .attr("r",function(d){
+                return d*3+5;
+            })
+            .style({
+                fill:'white',
+                stroke:'green',
+                'stroke-width':4
+            });
+
+    var sCircle = svg2.append("circle")
+                        .attr("cx",825)
+                        .attr("cy",50)
+                        .attr("r",24)
+                        .style({
+                            fill:'white',
+                            stroke:'DodgerBlue',
+                            'stroke-width':4
+                        }); 
+
+    var sText = svg2.append("text")
+                    .attr("x",810)
+                    .attr("y",52)
+                    .attr("class","time")
+                    .text("Sec")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "DodgerBlue");         
+
+
+    var m1 = svg3.selectAll("circle")
+                    .data(circleset)
+                    .enter()
+                    .append("circle");
+
+    m1.attr("cx",function(d,i){
+        return (i*100)+25;
+            })
+            .attr("cy",50)
+            .attr("r",function(d){
+                return d*3+5;
+            })
+            .style({
+                fill:'white',
+                stroke:'green',
+                'stroke-width':4
+            });
+
+    var m2 = svg4.selectAll("circle")
+                    .data(circleset2)
+                    .enter()
+                    .append("circle");
+
+    m2.attr("cx",function(d,i){
+        return (i*100)+25;
+            })
+            .attr("cy",50)
+            .attr("r",function(d){
+                return d*3+5;
+            })
+            .style({
+                fill:'white',
+                stroke:'green',
+                'stroke-width':4
+            });
+
+    var mCircle = svg4.append("circle")
+                        .attr("cx",825)
+                        .attr("cy",50)
+                        .attr("r",24)
+                        .style({
+                            fill:'white',
+                            stroke:'DodgerBlue',
+                            'stroke-width':4
+                        }); 
+
+    var sText = svg4.append("text")
+                    .attr("x",810)
+                    .attr("y",55)
+                    .attr("class","time")
+                    .text("Min")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "20px")
+                    .attr("fill", "DodgerBlue");
+
+    var h1 = svg5.selectAll("circle")
+                    .data(circleset)
+                    .enter()
+                    .append("circle");
+
+    h1.attr("cx",function(d,i){
+        return (i*100)+25;
+            })
+            .attr("cy",50)
+            .attr("r",function(d){
+                return d*3+8;
+            })
+            .style({
+                fill:'white',
+                stroke:'green',
+                'stroke-width':4
+            });
+
+    var h2 = svg6.selectAll("circle")
+                    .data(circleset)
+                    .enter()
+                    .append("circle");
+
+    h2.attr("cx",function(d,i){
+        return (i*100)+25;
+            })
+            .attr("cy",50)
+            .attr("r",function(d){
+                return d*3+8;
+            })
+            .style({
+                fill:'white',
+                stroke:function(i){
+                    if(i>2&&i<9)
+                        return 'white';
+                    else if(i==9)
+                        return 'RoyalBlue';
+                    else
+                        return 'green';
+                },
+                'stroke-width':4
+            });
+
+    var timeText = svg6.append("text")
+                    .attr("x",810)
+                    .attr("y",57)
+                    .attr("class","time")
+                    .text("AM")
+                    .attr("font-family", "sans-serif")
+                    .attr("font-size", "25px")
+                    .attr("fill", "RoyalBlue");
+
+   
+
+
+
+    function getTime(){
+        var date = new Date();
+        var hour = date.getHours();
+        var hour2 = hour;
+        var min = date.getMinutes();
+        var second = date.getSeconds();
+
+        s1.style({
+            fill:function(i){
+                if(i<=second%10){
+                    return 'rgb('+(255-i*20)+',0,0)';
+                }
+                else
+                    return 'none';
+            }
+        });
+
+        s2.style({
+            fill:function(i){
+                if(i<=second/10){
+                    return 'rgb('+(255-i*20)+',0,0)';
+                }
+                else
+                    return 'none';
+            }
+        });
+
+        m1.style({
+            fill:function(i){
+                if(i<=min%10){
+                    return 'rgb('+(255-i*20)+',100,0)';
+                }
+                else
+                    return 'none';
+            }
+        }); 
+
+        m2.style({
+            fill:function(i){
+                if(i<=min/10){
+                    return 'rgb('+(255-i*20)+',100,0)';
+                }
+                else
+                    return 'none';
+            }
+        });
+
+        if(hour2>12){
+            timeText.text("PM");
+            // hour2=hour2-12;
+        }
+        else{
+            timeText.text("AM");
+        }
+        h1.style({
+            fill:function(i){
+                if(i<=hour2%10){
+                    return 'rgb('+(255-i*20)+',0,100)';
+                }
+                else
+                    return 'none';
+            }
+        });
+
+        h2.style({
+            fill:function(i){
+                if(i<=hour2/10){
+                    return 'rgb('+(255-i*20)+',0,100)';
+                }
+                else
+                    return 'none';
+            }
+        });
+
+
+     
+        if(hour<10)
+            hour="0"+hour;
+        if(min<10)
+            min="0"+min;
+        if(second<10)
+            second="0"+second;
+
+
+        return hour + ":" + min + ":" + second;
+    }
+
+    var timeText = svg7.append("text")
+                    .attr("x",w/2-100)
+                    .attr("y",h-50)
+                    .attr("class","time")
+                    .text(getTime())
+                    .attr("fill", "RoyalBlue")
+                    .attr("font-size","40px");
+
+
+
+    setInterval(function(){
+        timeText.text(getTime());
+    },1000)
+
+    
+</script>
+
+</body>
+</html>

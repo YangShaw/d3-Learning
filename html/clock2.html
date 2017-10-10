@@ -1,0 +1,224 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>clock2</title>  
+</head>  
+<body>  
+      
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>  
+    <script type="text/javascript">  
+          
+        var width = 500,  
+            height = 500;  
+        var svg = d3.select('body').append("svg").attr("width", width).attr("height", height);  
+        svg.attr("x",1000)
+            .attr("y",100);
+               
+       var innerRadius = 190,      //圆的内半径、外半径  
+            outerRadius = 200; 
+  
+      
+        
+        var color = d3.scale.category10()  
+        var a = d3.rgb(0, 255, 255); //红色               设置渐变颜色的起始  
+        var b = d3.rgb(255, 255, 0); //绿色  
+        var c = d3.rgb(255, 0, 0);  
+        var compute = d3.interpolate(c, b); //他的值是介于0-1的  
+
+
+        var circle1 = svg.append("circle")
+                        .attr("cx",width/2)
+                        .attr("cy",height/2)
+                        .attr("r",outerRadius)
+                        .style({
+                            fill:'none',
+                            stroke:'yellow',
+                            'stroke-width':2
+                        });
+
+
+
+        var circle2 = svg.append("circle")
+                        .attr("cx",width/4)
+                        .attr("cy",height-height/4)
+                        .attr("r",outerRadius/2)
+                        .style({
+                            fill:'none',
+                            stroke:'yellow',
+                            'stroke-width':2
+                        });
+
+
+
+        var circle3 = svg.append("circle")
+                        .attr("cx",width-width/4)
+                        .attr("cy",height/3)
+                        .attr("r",outerRadius/3)
+                        .style({
+                            fill:'none',
+                            stroke:'yellow',
+                            'stroke-width':2
+                        });
+
+        var circle4 = svg.append("circle")
+                        .attr("r",10)
+                        .style({
+                            fill:'none',
+                            stroke:'black',
+                            'stroke-width':2
+                        });
+
+        var circle5 = svg.append("circle")
+                        .attr("r",7.5)
+                        .style({
+                            fill:'none',
+                            stroke:'green',
+                            'stroke-width':2
+                        });
+
+        var circle6 = svg.append("circle")
+                        .attr("r",6)
+                        .style({
+                            fill:'none',
+                            stroke:'darkorange',
+                            'stroke-width':3
+                        });
+
+  
+        var SecondsLine = svg.append('g').append('line')  
+            .attr("x1", width / 2)  
+            .attr("y1", height / 2)  
+            .style('stroke-width', 1)  
+  
+  
+        var MinutesLine = svg.append('g').append('line')  
+            .attr('x1', width / 2)  
+            .attr('y1', height / 2)  
+            .style('stroke-width', 3)  
+  
+        var HoursLine = svg.append('g').append('line')  
+            .attr('x1', width / 2)  
+            .attr('y1', height / 2)  
+            .style('stroke-width', 5);  
+
+        var text1 = svg.append("text")
+                        .attr("x",width/2)
+                        .attr("y",height/2)
+                        .text("S")
+                        .style('text-anchor', "middle")  
+                        .style('font-size', "2em"); 
+
+        var text2 = svg.append("text")
+                        .attr("x",width/4)
+                        .attr("y",height - height/4)
+                        .text("M")
+                        .style('text-anchor', "middle")  
+                        .style('font-size', "1.5em");  
+
+        var text3 = svg.append("text")
+                        .attr("x",width - width/4)
+                        .attr("y",height/3)
+                        .text("H")
+                        .style('text-anchor', "middle")  
+                        .style('font-size', "1em");   
+                        
+  
+        var str=[1];  
+        var  updatetimetext=svg.append('g')  
+                .selectAll('.timetext').data(str)  
+                .enter()  
+                .append('text')  
+                .attr('class', 'timetext')  
+                .text(function(d, i) {  
+                    return d;  
+                })  
+                .attr('transform', function(d, i) {  
+                    return "translate(" + (width / 2) + "," + (height - 5) + ")"  
+                })  
+                .style('text-anchor', "middle")  
+                .style('font-size', "2em")  
+                .attr("fill","royalblue");
+
+        function chuli() {  
+            var d = new Date();  
+            var dm = d.getTime() % 1000;  
+            var h = (d.getHours() >= 12 ? d.getHours() - 12 : d.getHours());  
+            var m = d.getMinutes();  
+            var s = d.getSeconds();  
+            var angle = (Math.PI * 2) / 60 * (60 - s) + Math.PI;  
+            var angle2 = (Math.PI * 2) / (60 * 60) * ((60 * 60 - m * 60-s)) + Math.PI;  
+            var angle3 = (Math.PI * 2) / (12 * 60 * 60) * (12 * 60 * 60 - h * 60 * 60 - m * 60 - s) + Math.PI;  
+            SecondsLine.attr('x2', function(d, i) {  
+                    return width / 2 + (innerRadius - 30) * Math.sin(angle);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return height / 2 + (innerRadius - 30) * Math.cos(angle);  
+                })  
+                .style('stroke', compute((s / 60)));  
+  
+            MinutesLine.attr('x2', function(d, i) {  
+                    return width / 2 + (innerRadius - 50) * Math.sin(angle2);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return height / 2 + (innerRadius - 50) * Math.cos(angle2);  
+                })  
+                .style('stroke', compute((m / 60)));  
+  
+            HoursLine.attr('x2', function(d, i) {  
+                    return width / 2 + (innerRadius - 80) * Math.sin(angle3);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return height / 2 + (innerRadius - 80) * Math.cos(angle3);  
+                })  
+                .style('stroke', compute((h / 12)));  
+  
+                str.pop();                                                      //删除上一个文本  
+                str.push(d.getHours()+":"+(m<10?"0"+m:m)+":"+(s<10?"0"+s:s)); //存入新的时间并且一位数时补0  
+                updatetimetext.data(str).text(function(d){return d;})           //更新时间  
+
+            circle1.style('stroke', compute((s / 60)));
+            circle2.style('stroke', compute((m / 60)));
+            circle3.style('stroke', compute((h / 12))); 
+
+            text1.attr("fill", compute((s / 60)));
+            text2.attr("fill", compute((m / 60)));
+            text3.attr("fill", compute((h / 12))); 
+
+
+            circle4.attr("cx",function(d, i) {  
+                    return width / 2 + (innerRadius - 30) * Math.sin(angle);  
+                    })
+                    .attr("cy",function(d, i) {  
+                    return height / 2 + (innerRadius - 30) * Math.cos(angle);  
+                    })
+                    .style('stroke', compute((s / 60)));
+
+            circle5.attr("cx",function(d, i) {  
+                    return width / 4 + (innerRadius - 120) * Math.sin(angle2);  
+                    })
+                    .attr("cy",function(d, i) {  
+                    return height - height / 4 + (innerRadius - 120) * Math.cos(angle2);  
+                    })
+                    .style('stroke', compute((m / 60)));
+
+            circle6.attr("cx",function(d, i) {  
+                    return width - width / 4 + (innerRadius - 140) * Math.sin(angle3);  
+                    })  
+                    .attr("cy",function(d, i) {  
+                    return height / 3 + (innerRadius - 140) * Math.cos(angle3);  
+                    })
+                    .style('stroke', compute((h / 12))); 
+
+            // text1.style('stroke', compute((s / 60)));
+            // text2.style('stroke', compute((m / 60)));  
+            // text3.style('stroke', compute((h / 12)));
+
+  
+            setTimeout(chuli, 1000 - dm);//获取当前的毫秒，用1000减去，则是到下一秒的毫秒时间。  
+        }  
+        chuli();  
+  
+    </script>  
+</body>  
+</html> 

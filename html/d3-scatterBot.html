@@ -1,0 +1,102 @@
+<!DOCTYPE html>  
+<html lang="en">  
+<head>  
+    <meta charset="UTF-8">  
+    <title>时钟</title>  
+</head>  
+<body>  
+      
+    <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>  
+    <script type="text/javascript">  
+          
+        var width = 500,  
+            height = 500;  
+        var svg = d3.select('body').append("svg").attr("width", width).attr("height", height);  
+               
+       var innerRadius = 190,      //圆的内半径、外半径  
+            outerRadius = 200; 
+  
+      
+        
+        var color = d3.scale.category10()  
+        var a = d3.rgb(0, 255, 255); //红色               设置渐变颜色的起始  
+        var b = d3.rgb(255, 255, 0); //绿色  
+        var c = d3.rgb(255, 0, 0);  
+        var compute = d3.interpolate(a, b); //他的值是介于0-1的  
+  
+        var SecondsLine = svg.append('g').append('line')  
+            .attr("x1", width / 2)  
+            .attr("y1", height / 2)  
+            .style('stroke-width', 1)  
+  
+  
+        var MinutesLine = svg.append('g').append('line')  
+            .attr('x1', width / 2)  
+            .attr('y1', height / 2)  
+            .style('stroke-width', 3)  
+  
+        var HoursLine = svg.append('g').append('line')  
+            .attr('x1', width / 2)  
+            .attr('y1', height / 2)  
+            .style('stroke-width', 5);  
+  
+        var str=[1];  
+        var  updatetimetext=svg.append('g')  
+                .selectAll('.timetext').data(str)  
+                .enter()  
+                .append('text')  
+                .attr('class', 'timetext')  
+                .text(function(d, i) {  
+                    return d;  
+                })  
+                .attr('transform', function(d, i) {  
+                    return "translate(" + (width / 2) + "," + (height - 20) + ")"  
+                })  
+                .style('text-anchor', "middle")  
+                .style('font-size', "2em");  
+        function chuli() {  
+            var d = new Date();  
+            var dm = d.getTime() % 1000;  
+            var h = (d.getHours() >= 12 ? d.getHours() - 12 : d.getHours());  
+            var m = d.getMinutes();  
+            var s = d.getSeconds();  
+            var angle = (Math.PI * 2) / 60 * (60 - s) + Math.PI;  
+            var angle2 = (Math.PI * 2) / (60 * 60) * ((60 * 60 - m * 60-s)) + Math.PI;  
+            var angle3 = (Math.PI * 2) / (12 * 60 * 60) * (12 * 60 * 60 - h * 60 * 60 - m * 60 - s) + Math.PI;  
+            SecondsLine.attr('x2', function(d, i) {  
+                    return width / 2 + (innerRadius - 30) * Math.sin(angle);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return height / 2 + (innerRadius - 30) * Math.cos(angle);  
+                })  
+                .style('stroke', compute((s / 60)));  
+  
+            MinutesLine.attr('x2', function(d, i) {  
+                    return width / 2 + (innerRadius - 50) * Math.sin(angle2);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return height / 2 + (innerRadius - 50) * Math.cos(angle2);  
+                })  
+                .style('stroke', compute((m / 60)));  
+  
+            HoursLine.attr('x2', function(d, i) {  
+                    return width / 2 + (innerRadius - 80) * Math.sin(angle3);  
+                })  
+                .attr('y2', function(d, i) {  
+                    return height / 2 + (innerRadius - 80) * Math.cos(angle3);  
+                })  
+                .style('stroke', compute((h / 12)));  
+  
+                str.pop();                                                      //删除上一个文本  
+                str.push(d.getHours()+":"+(m<10?"0"+m:m)+":"+(s<10?"0"+s:s)); //存入新的时间并且一位数时补0  
+                updatetimetext.data(str).text(function(d){return d;})           //更新时间  
+                  
+              
+  
+            setTimeout(chuli, 1000 - dm);//获取当前的毫秒，用1000减去，则是到下一秒的毫秒时间。  
+        }  
+        chuli();  
+  
+    </script>  
+</body>  
+</html> 

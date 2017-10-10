@@ -1,0 +1,122 @@
+    <!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <title>testD3-20-pie.html</title>
+        <script type="text/javascript" src="https://d3js.org/d3.v3.min.js"></script>
+    <style type="text/css"></style>
+    </head>
+
+    <body>
+        <script type="text/javascript">
+
+            var pie = d3.layout.pie();
+
+            var h = 1000;
+            var w = 1000;
+
+            var svg=d3.select("body")
+                .append("svg")
+                .attr("width",w)
+                .attr("height",h);
+
+        
+            var color=d3.scale.category10();//创建序数比例尺和包括10中颜色的输出范围
+
+            
+            var outer1 = w/2;
+            var inner1 = w/3;
+
+            var outer2 = w/3;
+            var inner2 = w/6;
+
+            var outer3 = w/6;
+
+            var hArc = d3.svg.arc()
+                            .innerRadius(inner1)
+                            .outerRadius(outer1);
+
+            var mArc = d3.svg.arc()
+                            .innerRadius(inner2)
+                            .outerRadius(outer2);
+
+            var sArc = d3.svg.arc()
+                            .outerRadius(outer3);
+
+            var hC = svg.append("g")
+                        .attr("transform","translate("+outer1+","+outer1+")");
+                        .append("path")
+                        .attr("fill",color(1));
+
+
+            var mC = svg.append("g")
+                        .attr("transform","translate("+outer2+","+outer2+")");
+                        .append("path")
+                        .attr("fill",color(2));
+
+            var sC = svg.append("g")
+                        .attr("transform","translate("+outer3+","+outer3+")");
+                        .append("path")
+                        .attr("fill",color(3));
+
+            // function getTime(){
+            //     var date = new Date();
+            //     var hour = date.getHours();
+            //     var min = date.getMinutes();
+            //     var second = date.getSeconds();
+
+            //     hC.attr("d",hArc(pie(hour)));
+            //         .append("text")
+            //         .attr("transform",function(){
+            //             return "translate(" + hArc.centroid(hour) + ")";
+            //         })
+            //         .attr("text-anchor","middle")
+            //         .text(hour);
+
+            //     mC.attr("d",mArc(pie(min)));
+
+            //     sC.attr("d",sArc(pie(second)));
+
+                
+
+
+
+                
+            //     if(hour<10)
+            //         hour="0"+hour;
+            //     if(min<10)
+            //         min="0"+min;
+            //     if(second<10)
+            //         second="0"+second;
+
+            //     hText.text(hour+"时")
+            //         .attr("text-anchor", "middle");
+
+            //     mText.text(min+"分")
+            //         .attr("text-anchor", "middle");
+
+            //     sText.text(second+"秒")
+            //         .attr("text-anchor", "middle");
+
+
+
+
+
+            //     return hour + ":" + min + ":" + second;
+            // }   
+
+            // var timeText = svg.append("text")
+            //         .attr("x",100)
+            //         .attr("y",100)
+            //         .attr("class","time")
+            //         .text(getTime());
+
+
+            // setInterval(function(){
+            //     timeText.text(getTime());
+            // },1000)             
+        
+        </script>
+
+    </body>
+</html>
